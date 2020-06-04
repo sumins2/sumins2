@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'detail.css' %}">
+    <title>detail</title>
+</head>
+<body>
+    <h1>{{detail_of_post.title}}</h1>
+    <div class="flex">
+        <img src="{{detail_of_post.img}}" alt="{{detail_of_post.title}}">      
+    </div> 
+    <h3>{{detail_of_post.content}}</h3>
+    <h6>{{detail_of_post.date}} </h6>
+    <h6>by.{{detail_of_post.author}} </h6>
+    <div class="flex">
+        <br>
+        <a href="{% url 'home' %}">home</a>
+        {% if user.is_authenticated and detail_of_post.author.pk == user.pk %}
+        <a href="{% url 'edit' detail_of_post.pk %}">edit</a>
+        <a href="{% url 'delete' detail_of_post.pk %}">delete</a>
+        {% endif %}
+    </div>
+        
+        <p class="flex">{{i.content}}</p>
+        
+    
+        <br>
+        <br>
+        {% if user.is_authenticated %}
+            <form class = 'flex'method="POST">
+                {% csrf_token %}
+                <input name="suminbest" placeholder="댓글을 입력해주세요">
+                <button type="submit">댓글 쓰기</button>
+            </form> 
+            {% endif %}
+    
+            <br>
+        
+            {% for i in comment_of_post %}
+
+                <p>{{i.author}}님의 댓글 : {{i.content}}</p>
+            <br>
+                {% if user.is_authenticated and comment_of_post.author.pk == user.pk %}
+                    <a class="flex" href="{% url 'edit_comment' i.pk detail_of_post.pk  %}">댓글수정</a>                    
+                    <a class="flex" href="{% url 'comment_delete' i.pk detail_of_post.pk %}">댓글삭제하기</a>
+                    {% endif %}
+        
+            {% endfor %}
+     
+            <br>
+        
+    {% endblock %}
+</body>
+</html>

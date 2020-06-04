@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">   
+    
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'edit.css' %}">
+    <title>edit</title>
+</head>
+
+<body>
+    <div class="flex">
+        <form method="POST">
+            {% csrf_token %}
+            <h3 class="title" >수정할 제목</h3>
+            <input type='text' name='title' placeholder="수정할 제목을 입력하세요">
+            <h3 class="title" >수정할 내용</h3>
+            <input type="text" name='content' placeholder="수정할 내용을 입력하세요" >
+            <h3 class="title" >이미지첨부</h3>
+            <input type="file" name="img" placeholder="이미지를 파일을 업로드하세요">
+            <h3 class="title" >마감날짜</h3>
+            <input type="date" name='date' placeholder="yyyy/mm/dd">
+            <button type="submit"> 수정 </button>
+        </form>
+    </div>
+{% endblock %}
+</body>
+</html>

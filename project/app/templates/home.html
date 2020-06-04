@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+    {% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'home.css' %}">
+    <title>Document</title>
+</head>
+<body>
+
+    <div class="flex">
+        <h1 class="d"> TO DO LIST</h1>
+        <p> 정렬 : 마감임박순</p>
+    </div>
+    {% for post in posts %} 
+        <div class="list_flex"> 
+            <div class="title_flex">
+                <a class="title" href="{% url 'detail' post.pk %}"> {{post.title}} </a>
+
+            </div>
+            <div class="single_flex" >
+                작성자 : {{post.author}}
+                {{post.date}}까지
+                
+            </div>
+            <br>
+        </div>
+    {% endfor %}
+    <br>
+    <div >
+        <a class='submit' href="{% url 'new' %}" > + </a>
+    </div>
+    {% endblock %}

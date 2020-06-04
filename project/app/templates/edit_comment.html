@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block link %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href = "{% static 'detail.css' %}">
+{% endblock link %}
+
+{% block title %}EditComment{% endblock title %}
+
+{% block content %}
+<div class="box">
+
+        <p>          
+            {{detail_of_post.title}}
+        </p>
+        <p>
+            {{detail_of_post.content}}          
+        </p>
+        <p>
+            {{detail_of_post.date}}
+        </p>
+  
+ 
+    <div>
+        <a  href = "{% url 'home' %}">홈으로</a>
+        {% if user.is_authenticated and detail_of_post.author.pk == user.pk %}
+        <a  href = "{% url 'edit' detail_of_post.pk %}">수정하기</a>
+        <a  href = "{% url 'delete' detail_of_post.pk %}">삭제하기</a>
+        {% endif %}
+    </div>
+    <div class = "comments">
+        <form class= "comments__new" method="POST">
+            {% csrf_token %}
+            <textarea type="text" name="content" placeholder="댓글을 입력하세요">{{comment_to_edit.content}}</textarea>
+            <button type="submit">댓글 수정</button>
+        </form>
+        <div class="comments__list">
+            {% for comment in detail_of_post.comments.all %}
+                {% if comment.pk != comment_to_edit.pk %}
+
+                        {{ comment.content }}
+
+                    {% if user.is_authenticated and comment.author.pk == user.pk %}
+                    <a  href="{% url 'edit_comment' detail_of_post.pk comment.pk %}">댓글수정</a>                    
+                    <a  href="{% url 'delete_comment' detail_of_post.pk comment.pk %}">댓글삭제</a>
+                    {% endif %}
+             
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

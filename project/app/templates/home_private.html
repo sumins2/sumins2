@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block link %}
+
+{% load static %}
+<link rel="stylesheet" type = "text/css" href = "{% static 'home.css' %}"> 
+
+{% endblock link %}
+
+
+
+{% block content %}
+<div class="box">
+    <p class="box__heading">{{username}}'s TO-DO LIST</p>
+    <li class="box__todolist">
+    {% for todo in todolist %}
+        <ul class="box__todolist__todo">
+            <div class="box__todolist__todo__time">
+                <div class="box__todolist__todo__time__deadline">
+    
+                    {{post.date}}
+                </div>
+                <div class="box__todolist__todo__time__timeleft">
+    
+                    {{todo.timeleft}}
+                </div>
+            </div>
+            <div class="box__todolist__todo__memo">
+                <div class="box__todolist__todo__memo__title">
+                    <a class = "box_todolist__todo__memo__title__link" href = "{% url 'detail' todo.pk %}">                        
+                        {{todo.title}}
+                    </a>
+                </div>
+                <div class="box__todolist__todo__memo__detail">
+                    {{todo.content}}     
+                </div>
+            </div>
+        </ul>
+                
+    {% endfor %}
+    </li>
+</div>
+{% endblock content %}
